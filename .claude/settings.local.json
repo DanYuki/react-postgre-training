@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npx prisma *)",
+      "WebFetch(domain:www.prisma.io)",
+      "Bash(pandoc day1-training-module.md -o day1-training-module.docx --from markdown --to docx --syntax-highlighting tango)",
+      "Bash(npx tsc *)"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Article {
+  id             String   @id @default(cuid())
+  title          String
+  body           String
+  coverImagePath String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
