@@ -5,7 +5,7 @@ export default function Home() {
     <div className="hero min-h-[70vh]">
       <div className="hero-content text-center">
         <div className="max-w-md">
-          <h1 className="text-5xl font-bold">Article CMS</h1>
+          <h1 className="text-5xl font-bold">Article CMS Dani Yusuf</h1>
           <p className="py-6 text-base-content/70">
             Day 1 starter — Next.js 16 · Prisma 7 · Supabase · DaisyUI
           </p>
