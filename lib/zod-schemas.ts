@@ -1,13 +1,13 @@
 import { z } from 'zod'
 
-// Add your Zod schemas here during Session 4.
-// Example:
-//
-// export const articleSchema = z.object({
-//   title: z.string().min(1, 'Title is required'),
-//   body:  z.string().min(1, 'Body is required'),
-// })
-//
-// export type ArticleInput = z.infer<typeof articleSchema>
+export const createArticleSchema = z.object({
+  title: z.string().min(1, 'Judul wajib diisi').max(255, 'Judul terlalu panjang'),
+  content: z.string().min(1, 'Konten wajib diisi'),
+})
 
-export {}
+export const deleteArticleSchema = z.object({
+  id: z.string().min(1, 'ID artikel tidak valid'),
+})
+
+export type CreateArticleInput = z.infer<typeof createArticleSchema>
+export type DeleteArticleInput = z.infer<typeof deleteArticleSchema>

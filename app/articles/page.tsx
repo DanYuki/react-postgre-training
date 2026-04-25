@@ -1,21 +1,9 @@
-import { prisma } from "@/lib/prisma";
 import ArticleCard from "./ArticleCard";
 import Link from "next/link";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { getArticles, hapusArtikel } from "@/actions/articleAction";
 
 export default async function ArticlePage() {
-    const articles = await prisma.article.findMany()
-    async function hapusArtikel(id: string) {
-        "use server"
-
-        await prisma.article.delete({
-            where: { id }
-        })
-
-        revalidatePath("/articles")
-        redirect('/articles')
-    }
+    const articles = await getArticles()
 
     return (
         <div>
@@ -24,9 +12,8 @@ export default async function ArticlePage() {
             <Link className="btn btn-primary" href="/articles/create">+ Tambah Artikel</Link>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
                 {articles.map((article) => (
-                    <ArticleCard key={article.id} article={article} hapusArtikel={hapusArtikel}/>
+                    <ArticleCard key={article.id} article={article} hapusArtikel={hapusArtikel} />
                 ))}
-
             </div>
         </div>
     )

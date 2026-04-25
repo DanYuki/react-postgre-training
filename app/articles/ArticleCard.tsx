@@ -1,36 +1,26 @@
 "use client"
 
-import { OIDCDiscoveryDocument } from "@supabase/supabase-js"
-
-interface Article {
-    id: string,
-    title: string,
-    body: string,
-    createdAt: string | "",
-    updatedAt: string | "",
-    coverUrl: string | "",
-}
+import type { Article } from "@/actions/articleAction"
 
 interface ArticleCardProps {
-    article: Article,
-    hapusArtikel: (id: string) => void,
+    article: Article
+    hapusArtikel: (id: string) => void
 }
 
-export default function ArticleCard({article, hapusArtikel} : ArticleCardProps) {
-
+export default function ArticleCard({ article, hapusArtikel }: ArticleCardProps) {
     return (
-        <div className="card bg-base-100 shadow-sm" key={article.id}>
+        <div className="card bg-base-100 shadow-sm">
             <figure>
                 <img
                     src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                    alt="Shoes" />
+                    alt="Cover" />
             </figure>
             <div className="card-body">
                 <h2 className="card-title truncate">{article.title}</h2>
-                <p className="line-clamp-2">A card component has a figure, a body part, and inside body there are title and actions parts</p>
+                <p className="line-clamp-2">{article.body}</p>
                 <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Buy Now</button>
-                    <button className="btn btn-error" onClick={() => hapusArtikel(article.id)}>Delete</button>
+                    <button className="btn btn-primary">Baca</button>
+                    <button className="btn btn-error" onClick={() => hapusArtikel(article.id)}>Hapus</button>
                 </div>
             </div>
         </div>
