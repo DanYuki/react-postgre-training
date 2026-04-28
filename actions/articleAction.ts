@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
-import { createArticleSchema, deleteArticleSchema } from "@/lib/zod-schemas"
+import { createArticleSchema, deleteArticleSchema, updateArticleSchema } from "@/lib/zod-schemas"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
@@ -40,7 +40,7 @@ export async function simpanArtikel(
   })
 
   if (!parsed.success) {
-    const { fieldErrors } = parsed.error.flatten()
+    const { fieldErrors } = z.flattenError(parsed.error)
     return {
       success: false,
       error: "Periksa kembali isian form kamu.",
@@ -72,4 +72,46 @@ export async function hapusArtikel(id: string): Promise<void> {
   await prisma.article.delete({ where: { id: parsed.data.id } })
   revalidatePath("/articles")
   redirect("/articles")
+}
+
+export async function updateArtikel(
+  _prevState: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const parsed = updateArticleSchema.safeParse({
+    id: formData.get("id"),
+    title: formData.get("title"),
+    content: formData.get("content"),
+  })
+
+  if (!parsed.success) {
+    const { fieldErrors } = z.flattenError(parsed.error)
+    return {
+      success: false,
+      error: "Periksa kembali isian form kamu.",
+      fieldErrors: {
+        title: fieldErrors.title,
+        content: fieldErrors.content,
+      },
+    }
+  }
+
+  await prisma.article.update({
+    where: { id: parsed.data.id },
+    data: {
+      title: parsed.data.title,
+      body: parsed.data.content,
+    },
+  })
+
+  revalidatePath("/articles")
+  redirect("/articles")
+}
+
+export async function detailArtikel(id: string): Promise<Article> {
+  return await prisma.article.findUnique({
+    where: {
+      id: id
+    }
+  })
 }
